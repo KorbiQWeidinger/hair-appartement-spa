@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "admono";
+    src: url("./admono/admono.eot"),
+    url("./admono/admono.woff") format("woff"),
+    url("./admono/admono.otf") format("opentype"),
+    url("./admono/admono.svg#filename") format("svg");
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/Outfit/.woff2') format('woff2'),
+         url('/fonts/Outfit-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
