@@ -1,13 +1,21 @@
-import { Box } from '@chakra-ui/react'
+import { Box, HStack, Text } from '@chakra-ui/react'
 import './App.css'
 import './assets/font/fonts.css'
-import ServiceList from './components/ServiceList'
+import Header from './components/Header'
+import HomePage from './pages/walpi/HomePage'
+import Brands from './components/Brands'
+import AboutUsPage from './pages/AboutUsPage'
+import PricesPage from './pages/PricesPage'
 
 function App() {
   return (
     <>
-      <Box bg="walpi.backgroundDark" height="100vh" pt={6}>
-        <ServiceList />
+      <Header />
+      <Box bg="walpi.backgroundLight" height="300vh" pt={'4rem'}>
+        <HomePage />
+        <Brands />
+        <AboutUsPage />
+        <PricesPage />
       </Box>
     </>
   )

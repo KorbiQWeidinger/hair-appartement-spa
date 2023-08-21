@@ -11,6 +11,7 @@ import {
   Flex,
   useBreakpointValue,
 } from '@chakra-ui/react'
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 
 interface Service {
@@ -250,27 +251,46 @@ const ServicesInCategory: React.FC<ServicesInCategoryProps> = ({
 }
 
 const ServiceList = () => {
-
   const [openItem, setOpenItem] = useState<number | null>(null) // only open first category on larger screens
 
   const isLargerScreen = useBreakpointValue({ base: false, xl: true })
 
   const handleToggle = (index: number) => {
-    setOpenItem((prevState) => (prevState === index ? (isLargerScreen ? index : null) : index))
+    setOpenItem((prevState) =>
+      prevState === index ? (isLargerScreen ? index : null) : index,
+    )
   }
 
   return (
-    <Flex direction="row" width="90%" margin="0 auto" justifyContent="center" gap="4px">
+    <Flex
+      direction="row"
+      width="90%"
+      margin="0 auto"
+      justifyContent="center"
+      gap="4px"
+      fontFamily={'Outfit'}
+    >
       <Box
         width="100%"
         maxW="600px"
         bg="walpi.backgroundLight"
-        borderRadius={(isLargerScreen ? 'none': 'lg')}
-        borderLeftRadius='lg'
+        borderRadius={isLargerScreen ? 'none' : 'lg'}
+        borderLeftRadius="lg"
         shadow="lg"
         py={2}
       >
-        <Accordion width="100%" index={isLargerScreen ? (openItem === null ? [0] : [openItem]) : (openItem === null ? [] : [openItem])}>
+        <Accordion
+          width="100%"
+          index={
+            isLargerScreen
+              ? openItem === null
+                ? [0]
+                : [openItem]
+              : openItem === null
+              ? []
+              : [openItem]
+          }
+        >
           {categories.map((category, index) => (
             <AccordionItem key={index} borderColor="walpi.backgroundLight">
               <AccordionButton
@@ -281,7 +301,12 @@ const ServiceList = () => {
                 <Box flex="1" textAlign="left" mr={6}>
                   {category.categoryName}
                 </Box>
-                <AccordionIcon />
+                {openItem === index ||
+                (openItem === null && isLargerScreen && index === 0) ? (
+                  <ChevronDownIcon boxSize={6} />
+                ) : (
+                  <ChevronRightIcon boxSize={6} />
+                )}
               </AccordionButton>
               {!isLargerScreen &&
                 categories.map((category, index) => {
@@ -303,13 +328,16 @@ const ServiceList = () => {
           width="100%"
           maxW="600px"
           bg="walpi.backgroundLight"
-          borderRadius={(isLargerScreen ? 'none': 'lg')}
-          borderRightRadius='lg'
+          borderRadius={isLargerScreen ? 'none' : 'lg'}
+          borderRightRadius="lg"
           shadow="lg"
           p={4}
         >
           {categories.map((category, index) => {
-            if (openItem === index || openItem === null && isLargerScreen && index === 0) {
+            if (
+              openItem === index ||
+              (openItem === null && isLargerScreen && index === 0)
+            ) {
               return <ServicesInCategory category={category} index={index} />
             }
             return null
