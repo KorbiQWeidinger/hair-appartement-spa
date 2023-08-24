@@ -87,7 +87,7 @@ function HomePage() {
           left={0}
           height="100%"
           width="100%"
-          bgColor="rgba(0,0,0,0.5)" // This darkens the image
+          bgColor={["rgba(0,0,0,0.5)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0)", "rgba(0,0,0,0)"]} // This darkens the image
         />
       </Box>
     </Grid>
