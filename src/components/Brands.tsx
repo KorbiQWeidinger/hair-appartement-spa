@@ -1,40 +1,48 @@
-import { Box, HStack, Image } from '@chakra-ui/react'
+import {
+  Box,
+  Center,
+  Grid,
+  HStack,
+  Image,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import Brand1 from '../assets/svg/Inerbra.svg'
 import Brand2 from '../assets/svg/Loreal.svg'
 import Brand3 from '../assets/svg/TheOrdinary.svg'
 import Brand4 from '../assets/svg/Keraste.svg'
-import{ useEffect, useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react'
+import { motion, useAnimation } from 'framer-motion'
 
-const MotionImage = motion(Image);
+const MotionImage = motion(Image)
 
 function Brands() {
-  const controls = useAnimation();
-  const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
+  const controls = useAnimation()
+  const [visible, setVisible] = useState(false)
+  const ref = useRef(null)
+  const isSmallScreen = useBreakpointValue({ base: true, lg: false })
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setVisible(entry.isIntersecting);
+        setVisible(entry.isIntersecting)
       },
       {
         root: null,
         rootMargin: '0px',
         threshold: 0.1, // Adjust if needed
-      }
-    );
+      },
+    )
 
     if (ref.current) {
-      observer.observe(ref.current);
+      observer.observe(ref.current)
     }
 
     return () => {
       if (ref.current) {
-        observer.unobserve(ref.current);
+        observer.unobserve(ref.current)
       }
-    };
-  }, [ref, controls]);
+    }
+  }, [ref, controls])
 
   useEffect(() => {
     if (visible) {
@@ -42,27 +50,33 @@ function Brands() {
         opacity: 1,
         x: 0,
         transition: { delay: i * 0.6 },
-      }));
+      }))
     }
-  }, [controls, visible]);
+  }, [controls, visible])
 
   return (
-    <Box ref={ref} height="10rem" bg="black" px={20}>
-      <HStack justifyContent="space-between" alignItems="center" height="100%">
+    <Center ref={ref} bg="black" px={isSmallScreen ? 5 : 20} py={8}>
+      <Grid
+        height="100%"
+        width={"100%"}
+        templateColumns={isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)'}
+        gap={4}
+      >
         {[Brand1, Brand2, Brand3, Brand4].map((brand, index) => (
-          <MotionImage
-            key={brand}
-            src={brand}
-            style={{ height: `${(index + 1) * 12}%`, width: 'auto' }} // TODO: fix Weird height calculation because of the svgs sizes
-            initial={{ opacity: 0, x: -100 }}
-            animate={controls}
-            custom={index}
-          />
+          <Center width={'100%'}>
+            <MotionImage
+              key={brand}
+              src={brand}
+              style={{ width: 'min(70%, 10rem)' }}
+              initial={{ opacity: 0, x: -100 }}
+              animate={controls}
+              custom={index}
+            />
+          </Center>
         ))}
-      </HStack>
-    </Box>
-  );
+      </Grid>
+    </Center>
+  )
 }
 
-export default Brands;
-
+export default Brands

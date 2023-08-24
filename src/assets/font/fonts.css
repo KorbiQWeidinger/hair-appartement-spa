@@ -31,6 +31,13 @@
 
 @font-face {
   font-family: 'Work Sans';
+  src: url('./Work_Sans/static/WorkSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Work Sans';
   src: url('./Work_Sans/static/WorkSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;

@@ -1,8 +1,15 @@
-import { Box, HStack, Text, Center, Image } from '@chakra-ui/react'
+import {
+  Box,
+  HStack,
+  Text,
+  Center,
+  Image,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import image from '../assets/images/Sunset.jpg'
-import dotted from '../assets/svg/Dotted.svg'
+import dotted from '../assets/svg/Dotted_WalpiBGDark.svg'
 
 const MotionBox = motion(Box)
 const MotionImage = motion(Image)
@@ -12,29 +19,29 @@ function AboutUsPage() {
   const controls = useAnimation()
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
+  const isSmallScreen = useBreakpointValue({ base: true, lg: false })
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        console.log(entry.isIntersecting)
         setVisible(entry.isIntersecting)
       },
       {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5,
+        threshold: 0.3,
       },
     )
-
     if (ref.current) {
       observer.observe(ref.current)
     }
-
     return () => {
       if (ref.current) {
         observer.unobserve(ref.current)
       }
     }
-  }, [])
+  }, [visible])
 
   useEffect(() => {
     if (visible) {
@@ -43,51 +50,54 @@ function AboutUsPage() {
   }, [controls, visible])
 
   return (
-    <HStack ref={ref} height={'70vh'} justifyContent="left" alignItems="center">
-      <Box pl={'10%'}>
-        <MotionBox
-          position="relative"
-          width="36rem"
-          height="26rem"
-          initial="hidden"
-          animate={controls}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { delay: 0.2 } },
-          }}
-        >
+    <HStack
+      ref={ref}
+      height={isSmallScreen ? '100vh' : '70vh'}
+      width={'100%'}
+      px={'10%'}
+      wrap={isSmallScreen ? 'wrap' : 'nowrap'}
+    >
+      <Box width={'70%'}>
+        <Box width={isSmallScreen ? '28rem' : '36rem'} height={isSmallScreen ? '18rem' : '26rem'} position={'relative'}>
           {/* Box behind top-left corner */}
           <MotionBox
             position="absolute"
-            width="10rem"
-            height="10rem"
+            width={isSmallScreen ? '5rem' : '10rem'}
+            height={isSmallScreen ? '5rem' : '10rem'}
             bg="walpi.primary.1000"
             zIndex="1"
             shadow="lg"
             borderRadius="2xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 4 }}
+            initial="hidden"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 0.5 } },
+            }}
+            animate={controls}
           />
 
           {/* Main Image */}
           <MotionImage
             src={image}
-            width="32rem"
-            height="22rem"
+            width={isSmallScreen ? '26rem' : '32rem'}
+            height={isSmallScreen ? '16rem' : '22rem'}
             objectFit="cover"
             borderRadius="2xl"
             shadow="lg"
             zIndex="2"
-            position="relative"
+            position="absolute"
             top="8"
             left="8"
-            initial={{ opacity: 0, rotate: 0 }}
-            animate={{
-              opacity: 1,
-              rotateY: 360,
-              transition: { delay: 4.2, duration: 2 },
+            initial="hidden"
+            variants={{
+              hidden: { opacity: 0, rotateY: 180 },
+              visible: {
+                opacity: 1,
+                rotateY: 360,
+                transition: { delay: 0.7, duration: 1 },
+              },
             }}
+            animate={controls}
           />
 
           {/* SVG behind bottom-right corner */}
@@ -99,58 +109,71 @@ function AboutUsPage() {
             width="8rem"
             height="8rem"
             zIndex="1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 4.4 }}
+            initial="hidden"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 1.8 } },
+            }}
+            animate={controls}
           />
-        </MotionBox>
-      </Box>
-      <Center>
-        <Box textAlign="left" fontFamily="Outfit" width={'80%'}>
-          <MotionText
-            fontSize="4xl"
-            fontWeight="bold"
-            pb={6}
-            initial={{ x: 100, opacity: 0 }}
-            animate={{
-              x: 0,
-              opacity: 1,
-              transition: { delay: 6.3, duration: 0.6 },
-            }}
-          >
-            Willkommen bei den
-            <Text as="span" color="walpi.backgroundDark">
-              {' '}
-              Duschls
-            </Text>
-            <Text as="span">.</Text>
-          </MotionText>
-          <MotionText
-            pb={4}
-            initial={{ x: 100, opacity: 0 }}
-            animate={{
-              x: 0,
-              opacity: 1,
-              transition: { delay: 7.3, duration: 0.6 },
-            }}
-          >
-            Im Herzen unseres Zuhauses begrüßen Stefan & Nina Sie in einem
-            gemütlichen Zweiplatz-Salon. Bei uns stehen Sie und Ihre Familie im
-            Mittelpunkt. Kinder beleben unseren Alltag, und Hunde sind herzlich
-            willkommen.
-          </MotionText>
-          <MotionText
-            initial={{ x: 100, opacity: 0 }}
-            animate={{
-              x: 0,
-              opacity: 1,
-              transition: { delay: 8.1, duration: 0.6 },
-            }}
-          >
-            Freuen Sie sich auf einen Besuch bei den Duschls!
-          </MotionText>
         </Box>
-      </Center>
+      </Box>
+      <Box textAlign="left" fontFamily="Outfit" width={'80%'} pl={10}>
+        <MotionText
+          fontSize="4xl"
+          fontWeight="bold"
+          pb={6}
+          variants={{
+            hidden: { x: 100, opacity: 0 },
+            visible: {
+              x: 0,
+              opacity: 1,
+              transition: { delay: 2, duration: 0.6 },
+            },
+          }}
+          initial="hidden"
+          animate={controls}
+        >
+          Willkommen bei den
+          <Text as="span" color="walpi.backgroundDark">
+            {' '}
+            Duschls
+          </Text>
+          <Text as="span">.</Text>
+        </MotionText>
+        <MotionText
+          pb={4}
+          variants={{
+            hidden: { x: 100, opacity: 0 },
+            visible: {
+              x: 0,
+              opacity: 1,
+              transition: { delay: 2.8, duration: 0.6 },
+            },
+          }}
+          initial="hidden"
+          animate={controls}
+        >
+          Im Herzen unseres Zuhauses begrüßen Stefan & Nina Sie in einem
+          gemütlichen Zweiplatz-Salon. Bei uns stehen Sie und Ihre Familie im
+          Mittelpunkt. Kinder beleben unseren Alltag, und Hunde sind herzlich
+          willkommen.
+        </MotionText>
+        <MotionText
+          variants={{
+            hidden: { x: 100, opacity: 0 },
+            visible: {
+              x: 0,
+              opacity: 1,
+              transition: { delay: 3.7, duration: 0.6 },
+            },
+          }}
+          initial="hidden"
+          animate={controls}
+        >
+          Freuen Sie sich auf einen Besuch bei den Duschls!
+        </MotionText>
+      </Box>
     </HStack>
   )
 }

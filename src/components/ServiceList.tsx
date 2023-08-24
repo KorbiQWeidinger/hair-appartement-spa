@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  AccordionIcon,
   Text,
   List,
   ListItem,
@@ -229,10 +228,10 @@ type ServicesInCategoryProps = {
   index: number
 }
 
-const ServicesInCategory: React.FC<ServicesInCategoryProps> = ({
+const ServicesInCategory = ({
   category,
   index,
-}) => {
+}: ServicesInCategoryProps) => {
   return (
     <List spacing={2}>
       {category.services.map((service, sIndex) => (

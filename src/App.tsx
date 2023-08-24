@@ -1,23 +1,21 @@
-import { Box, HStack, Text } from '@chakra-ui/react'
 import './App.css'
 import './assets/font/fonts.css'
-import Header from './components/Header'
-import HomePage from './pages/walpi/HomePage'
-import Brands from './components/Brands'
-import AboutUsPage from './pages/AboutUsPage'
-import PricesPage from './pages/PricesPage'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Walpi from './pages/Walpi'
+import Ost from './pages/Ost'
+import Impressum from './pages/Impressum'
+import SelectSalonPage from './pages/SelectSalonPage'
 
 function App() {
   return (
-    <>
-      <Header />
-      <Box bg="walpi.backgroundLight" height="300vh" pt={'4rem'}>
-        <HomePage />
-        <Brands />
-        <AboutUsPage />
-        <PricesPage />
-      </Box>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SelectSalonPage />} />
+        <Route path="/walpi" element={<Walpi />} />
+        <Route path="/ost" element={<Ost />} />
+        <Route path="/impressum" element={<Impressum />} />
+      </Routes>
+    </Router>
   )
 }
 
