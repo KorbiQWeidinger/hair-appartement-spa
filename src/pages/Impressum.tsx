@@ -1,6 +1,6 @@
 import { VStack, Grid, Text, Box, Center, Button, Flex } from '@chakra-ui/react'
 import HairAppartement from '../components/HairAppartement'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Icon } from '@chakra-ui/icons'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import PlaceIcon from '@mui/icons-material/Place'
@@ -13,6 +13,7 @@ import ParagraphList, {
   paragraphsImpressum,
 } from '../components/ParagraphList'
 import Footer from '../components/Footer'
+import { useEffect } from 'react'
 
 const MotionButton = motion(Button)
 const MotionGrid = motion(Grid)
@@ -22,23 +23,12 @@ const MotionCenter = motion(Center)
 
 const BackButton = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const handleBack = () => {
-    // If there is a history entry, navigate back
-    if (location.state?.from) {
-      navigate(-1)
-    } else {
-      // Default behavior if there's no history entry
-      navigate('/') // Navigate to the default route or any other route
-    }
-  }
 
   return (
     <MotionButton
       onClick={(e) => {
         e.preventDefault()
-        handleBack()
+        navigate(-1)
       }}
       h={10}
       w={10}
@@ -55,7 +45,17 @@ const BackButton = () => {
   )
 }
 
-const Impressum = () => {
+const Impressum = ({
+  salon,
+  setSalon,
+}: {
+  salon: string
+  setSalon: React.Dispatch<React.SetStateAction<string>>
+}) => {
+  useEffect(() => {
+    setSalon(salon)
+  }, [salon, setSalon])
+
   return (
     <VStack bg="walpi.backgroundLight" fontFamily={'Outfit'} gap={0}>
       {/* Head with a simple Back Button and HairAppartementTitle */}
@@ -108,14 +108,14 @@ const Impressum = () => {
         >
           <HoverBox
             bg="walpi.backgroundDark"
-            href="tel:498944449499"
+            href="https://maps.app.goo.gl/qvgsNpR7s87h1iMy7"
             hoverText={'Öffne in Google Maps'}
           >
             <VStack height={'100%'} pt={4}>
               <Box textAlign={'center'}>
                 <PlaceIcon fontSize="large" />
                 <Text>Stefan Duschl</Text>
-                <Text>Homerweg 18</Text>
+                <Text>Homerweg 1</Text>
                 <Text>5469 Walpertskirchen</Text>
               </Box>
             </VStack>
@@ -188,12 +188,15 @@ const Impressum = () => {
           Datenschutz
         </MotionText>
       </Center>
-      <MotionCenter pb={['4rem', '8rem']} initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.6, duration: 0.5 }}>
+      <MotionCenter
+        pb={['4rem', '8rem']}
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.6, duration: 0.5 }}
+      >
         <ParagraphList paragraphs={paragraphsDatenschutz} />
       </MotionCenter>
-      <Footer />
+      <Footer salon={salon} showImpressumLink={false} />
     </VStack>
   )
 }

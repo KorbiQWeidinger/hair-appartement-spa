@@ -8,15 +8,19 @@ import {
   Flex,
   useBreakpointValue,
 } from '@chakra-ui/react'
+import PlaceIcon from '@mui/icons-material/Place'
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import image from '../../assets/images/Wartebereich.jpeg'
 import dotted from '../../assets/svg/Dotted_WalpiPrimary.svg'
+import HoverBox from '../../components/HoverBox'
+import { OST, getMaps } from '../../constants/SALONS'
 
 const MotionBox = motion(Box)
 const MotionImage = motion(Image)
 
-function Contact() {
+function Contact({ salon }: { salon: string }) {
   const controls = useAnimation()
   const ref = useRef(null)
   const isSmallScreen = useBreakpointValue({ base: true, md: false })
@@ -25,7 +29,6 @@ function Contact() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log(entry.isIntersecting)
         setVisible(entry.isIntersecting)
       },
       {
@@ -34,12 +37,13 @@ function Contact() {
         threshold: 0.3,
       },
     )
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [visible])
@@ -51,7 +55,14 @@ function Contact() {
   }, [controls, visible])
 
   return (
-    <VStack pt={'4rem'} pb={'10rem'} fontFamily="Work Sans" width={'100%'}>
+    <VStack
+      as="section"
+      id="contact"
+      pt={'4rem'}
+      pb={'10rem'}
+      fontFamily="Work Sans"
+      width={'100%'}
+    >
       <Text fontSize="3xl" fontWeight="bold">
         Kontakt
       </Text>
@@ -140,7 +151,25 @@ function Contact() {
               initial="hidden"
               animate={controls}
             >
-              {/* TODO */}
+              <HoverBox
+                bg="walpi.backgroundDark"
+                href={getMaps(salon)}
+                hoverText={'Öffne in Google Maps'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <VStack height={'100%'} pt={4}>
+                  <Box textAlign={'center'}>
+                    <PlaceIcon fontSize="large" />
+                    <Text>
+                      {salon === OST ? 'Elsässer Str. 26' : 'Homerweg 1'}
+                    </Text>
+                    <Text>
+                      {salon === OST ? '81667 München' : '5469 Walpertskirchen'}
+                    </Text>
+                  </Box>
+                </VStack>
+              </HoverBox>
             </MotionBox>
             <MotionBox
               pl={isSmallScreen ? 0 : '10%'}
@@ -158,7 +187,16 @@ function Contact() {
               initial="hidden"
               animate={controls}
             >
-              {/* TODO */}
+              <HoverBox
+                bg="walpi.backgroundDark"
+                href="tel:498944449499"
+                hoverText={'Ruf Uns An'}
+              >
+                <VStack height={'100%'} pt={4}>
+                  <LocalPhoneIcon fontSize="large" />
+                  <Text pt={6}>+49 894 4449499</Text>
+                </VStack>
+              </HoverBox>
             </MotionBox>
           </VStack>
         </Center>

@@ -1,11 +1,11 @@
-import { Box, background, useToast, Text, CloseButton } from '@chakra-ui/react'
-import Header from './../components/Header'
-import HomePage from './../pages/walpi/HomePage'
-import Brands from './../components/Brands'
-import AboutUsPage from './../pages/AboutUsPage'
-import PricesPage from './../pages/PricesPage'
-import ContactPage from './../pages/walpi/ContactPage'
-import Footer from './../components/Footer'
+import { Box, useToast, Text, CloseButton } from '@chakra-ui/react'
+import Header from '../components/Header'
+import Home from './sections/Home'
+import Brands from '../components/Brands'
+import AboutUs from './sections/AboutUs'
+import Prices from './sections/Prices'
+import ContactPage from './sections/Contact'
+import Footer from '../components/Footer'
 import { useEffect } from 'react'
 
 type ToastType = {
@@ -59,8 +59,18 @@ const toasts: ToastType[] = [
   // Add more toasts as needed
 ]
 
-const Walpi = () => {
+const Main = ({
+  salon,
+  setSalon,
+}: {
+  salon: string
+  setSalon: React.Dispatch<React.SetStateAction<string>>
+}) => {
   const toast = useToast()
+
+  useEffect(() => {
+    setSalon(salon)
+  }, [salon, setSalon])
 
   useEffect(() => {
     // Introduce a delay using setTimeout
@@ -84,21 +94,21 @@ const Walpi = () => {
 
     // Cleanup timer when component unmounts or dependencies change
     return () => clearTimeout(timer)
-  }, [toast, toasts])
+  }, [toast])
 
   return (
     <>
-      <Header />
+      <Header salon={salon} />
       <Box bg="walpi.backgroundLight">
-        <HomePage />
+        <Home salon={salon} />
         <Brands />
-        <AboutUsPage />
-        <PricesPage />
-        <ContactPage />
-        <Footer />
+        <AboutUs salon={salon} />
+        <Prices salon={salon} />
+        <ContactPage salon={salon} />
+        <Footer salon={salon} />
       </Box>
     </>
   )
 }
 
-export default Walpi
+export default Main

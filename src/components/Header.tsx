@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   Text,
@@ -9,10 +9,11 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import { OST, WALPI, bookingLink } from '../constants/SALONS'
 
 const MotionBox = motion(Box)
 
-const Header: React.FC = () => {
+const Header = ({ salon }: { salon: string }) => {
   const [lastScrollTop, setLastScrollTop] = useState(0)
   const [isVisible, setIsVisible] = useState(true)
   const isSmallScreen = useBreakpointValue({ base: true, lg: false })
@@ -61,21 +62,25 @@ const Header: React.FC = () => {
         >
           <Flex justifyContent="space-between" align="center" px={2} w="full">
             {/* First Element - Title */}
-            <Text fontSize="2rem" fontWeight="bold" fontFamily={'admono'}>
-              Hair
-              <Text as="b" fontSize="1.6rem" pr={2} align={'end'}>
-                Appartement
+            <Link href="#home" _hover={{ textDecoration: 'none' }}>
+              <Text fontSize="2rem" fontWeight="bold" fontFamily={'admono'}>
+                Hair
+                <Text as="b" fontSize="1.6rem" pr={2} align={'end'}>
+                  Appartement
+                </Text>
+                {salon === OST ? '' : '2'}
               </Text>
-              2
-            </Text>
+            </Link>
 
             {/* Second Element - Navigation Links */}
             <HStack spacing={4}>
-              <Link href="#salon-wechseln">Salon Wechseln</Link>
-              <Link href="#preise">Preise</Link>
-              <Link href="#kontakt">Kontakt</Link>
-              <Link href="#impressum">Impressum</Link>
-              <Link href="#datenschutz">Datenschutz</Link>
+              <Link href={`/${salon === WALPI ? OST : WALPI}`}>
+                Salon Wechseln
+              </Link>
+              <Link href="#prices">Preise</Link>
+              <Link href="#contact">Kontakt</Link>
+              <Link href={`${salon}/impressum`}>Impressum</Link>
+              <Link href={`${salon}/impressum`}>Datenschutz</Link>
             </HStack>
 
             {/* Third Element - Button */}
@@ -86,7 +91,7 @@ const Header: React.FC = () => {
               borderRadius={100}
               px={6}
               as="a"
-              href="https://buchung.treatwell.de/ort/424008/menue/"
+              href={bookingLink(salon)}
               target="_blank"
               rel="noopener noreferrer"
             >

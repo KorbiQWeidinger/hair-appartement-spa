@@ -12,210 +12,12 @@ import {
 } from '@chakra-ui/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
-
-interface Service {
-  name: string
-  price: number
-  minutes: number
-}
-
-interface Category {
-  categoryName: string
-  services: Service[]
-}
-
-const categories: Category[] = [
-  {
-    categoryName: 'Damen - Haarschnitte & Stylings',
-    services: [
-      {
-        name: 'Damen - Pony',
-        price: 1,
-        minutes: 5,
-      },
-      {
-        name: 'Damen - Waschen, Pflege & Föhnen',
-        price: 21.5,
-        minutes: 15,
-      },
-      {
-        name: 'Damen - Cut & Go',
-        price: 39,
-        minutes: 30,
-      },
-      {
-        name: 'Damen - Haarschnitt',
-        price: 49,
-        minutes: 60,
-      },
-      {
-        name: 'Damen - Hochsteckfrisur',
-        price: 50,
-        minutes: 60,
-      },
-    ],
-  },
-  {
-    categoryName: 'Damen - Colorationen Inkl. Schnitt & Föhnen',
-    services: [
-      {
-        name: 'Damen - Neufärbung, Schnitt & Föhnen',
-        price: 98,
-        minutes: 120,
-      },
-      {
-        name: 'Damen - Ansatzfärbung, Schnitt & Föhnen',
-        price: 89,
-        minutes: 115,
-      },
-      {
-        name: 'Damen - Intensivtönung, Schnitt & Föhnen',
-        price: 98,
-        minutes: 115,
-      },
-      {
-        name: 'Damen - Foliensträhnen Oberkopf, Pflege & Föhnen',
-        price: 68.5,
-        minutes: 90,
-      },
-      {
-        name: 'Damen - Foliensträhnen ganzer Kopf, Pflege & Föhnen',
-        price: 100.5,
-        minutes: 120,
-      },
-    ],
-  },
-  {
-    categoryName: 'Damen - Colorationen Inkl. Cut & Go',
-    services: [
-      {
-        name: 'Damen - Neufärbung, Cut & Go',
-        price: 88,
-        minutes: 90,
-      },
-      {
-        name: 'Damen - Ansatzfärbung, Cut & Go',
-        price: 79,
-        minutes: 85,
-      },
-      {
-        name: 'Damen - Intensivtönung, Cut & Go',
-        price: 88,
-        minutes: 85,
-      },
-      {
-        name: 'Damen - Foliensträhnen Oberkopf, Cut & Go',
-        price: 86,
-        minutes: 105,
-      },
-      {
-        name: 'Damen - Foliensträhnen ganzer Kopf, Cut & Go',
-        price: 118,
-        minutes: 135,
-      },
-    ],
-  },
-  {
-    categoryName: 'Damen - Colorationen Inkl. Waschen, Pflege & Föhnen',
-    services: [
-      {
-        name: 'Damen - Neufärbung, Pflege & Föhnen',
-        price: 70.5,
-        minutes: 75,
-      },
-      {
-        name: 'Damen - Ansatzfärbung, Pflege & Föhnen',
-        price: 61.5,
-        minutes: 70,
-      },
-      {
-        name: 'Damen - Intensivtönung, Pflege & Föhnen',
-        price: 70.5,
-        minutes: 70,
-      },
-      {
-        name: 'Damen - Foliensträhnen Oberkopf, Schnitt & Föhnen',
-        price: 96,
-        minutes: 135,
-      },
-      {
-        name: 'Damen - Foliensträhnen ganzer Kopf, Schnitt & Föhnen',
-        price: 128,
-        minutes: 165,
-      },
-    ],
-  },
-  {
-    categoryName: 'Herren - Haarschnitte & Stylings',
-    services: [
-      {
-        name: 'Herren - Konturschnitt',
-        price: 15,
-        minutes: 15,
-      },
-      {
-        name: 'Herren - Haarschnitt',
-        price: 30,
-        minutes: 30,
-      },
-      {
-        name: 'Herrenhaarschnitt ohne Waschen',
-        price: 25,
-        minutes: 30,
-      },
-    ],
-  },
-  {
-    categoryName: 'Kinder - Haarschnitte & Styling',
-    services: [
-      {
-        name: 'Mädchen unter 12 Jahre - Haarschnitt',
-        price: 16.5,
-        minutes: 30,
-      },
-      {
-        name: 'Mädchen von 12 bis 16 Jahre - Waschen, Pflege, Schneiden & Föhnen',
-        price: 30,
-        minutes: 30,
-      },
-      {
-        name: 'Jungs unter 12 Jahre - Haarschnitt',
-        price: 16.5,
-        minutes: 30,
-      },
-    ],
-  },
-  {
-    categoryName: 'Wimpern/Augenbrauen',
-    services: [
-      {
-        name: 'Augenbrauen zupfen',
-        price: 13,
-        minutes: 15,
-      },
-      {
-        name: 'Augenbrauen färben',
-        price: 8,
-        minutes: 10,
-      },
-      {
-        name: 'Augenbrauen färben & zupfen',
-        price: 21,
-        minutes: 25,
-      },
-      {
-        name: 'Wimpern färben',
-        price: 8,
-        minutes: 10,
-      },
-      {
-        name: 'Augenbrauen & Wimpern färben',
-        price: 16,
-        minutes: 20,
-      },
-    ],
-  },
-]
+import {
+  Category,
+  PRICES_BY_CATEGORY_OST,
+  PRICES_BY_CATEGORY_WALPI,
+} from '../constants/PRICES'
+import { OST } from '../constants/SALONS'
 
 const formatTime = (minutes: number) => {
   const hours = Math.floor(minutes / 60)
@@ -228,10 +30,7 @@ type ServicesInCategoryProps = {
   index: number
 }
 
-const ServicesInCategory = ({
-  category,
-  index,
-}: ServicesInCategoryProps) => {
+const ServicesInCategory = ({ category, index }: ServicesInCategoryProps) => {
   return (
     <List spacing={2}>
       {category.services.map((service, sIndex) => (
@@ -249,7 +48,7 @@ const ServicesInCategory = ({
   )
 }
 
-const ServiceList = () => {
+const ServiceList = ({ salon }: { salon: string }) => {
   const [openItem, setOpenItem] = useState<number | null>(null) // only open first category on larger screens
 
   const isLargerScreen = useBreakpointValue({ base: false, xl: true })
@@ -259,6 +58,9 @@ const ServiceList = () => {
       prevState === index ? (isLargerScreen ? index : null) : index,
     )
   }
+
+  const prices_by_category =
+    salon === OST ? PRICES_BY_CATEGORY_OST : PRICES_BY_CATEGORY_WALPI
 
   return (
     <Flex
@@ -290,7 +92,7 @@ const ServiceList = () => {
               : [openItem]
           }
         >
-          {categories.map((category, index) => (
+          {prices_by_category.map((category, index) => (
             <AccordionItem key={index} borderColor="walpi.backgroundLight">
               <AccordionButton
                 _hover={{ bg: 'walpi.primary.400' }}
@@ -308,7 +110,7 @@ const ServiceList = () => {
                 )}
               </AccordionButton>
               {!isLargerScreen &&
-                categories.map((category, index) => {
+                prices_by_category.map((category, index) => {
                   if (openItem === index) {
                     return (
                       <AccordionPanel pb={4} key={index}>
@@ -332,7 +134,7 @@ const ServiceList = () => {
           shadow="lg"
           p={4}
         >
-          {categories.map((category, index) => {
+          {prices_by_category.map((category, index) => {
             if (
               openItem === index ||
               (openItem === null && isLargerScreen && index === 0)

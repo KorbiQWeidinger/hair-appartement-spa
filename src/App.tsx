@@ -1,21 +1,57 @@
-import './App.css'
 import './assets/font/fonts.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Walpi from './pages/Walpi'
-import Ost from './pages/Ost'
+import Main from './pages/Main'
 import Impressum from './pages/Impressum'
-import SelectSalonPage from './pages/SelectSalonPage'
+import SelectSalon from './pages/SelectSalon'
+import { useState, useEffect } from 'react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { OST, WALPI } from './constants/SALONS'
+import { OST_COLORS, WALPI_COLORS } from './constants/COLORS'
 
 function App() {
+  const [theme, setTheme] = useState({})
+  const [salon, setSalon] = useState('')
+
+  useEffect(() => {
+    if (salon === WALPI) {
+      setTheme({
+        colors: {
+          walpi: WALPI_COLORS,
+        },
+      })
+    } else {
+      setTheme({
+        colors: {
+          walpi: OST_COLORS,
+        },
+      })
+    }
+  }, [salon])
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SelectSalonPage />} />
-        <Route path="/walpi" element={<Walpi />} />
-        <Route path="/ost" element={<Ost />} />
-        <Route path="/impressum" element={<Impressum />} />
-      </Routes>
-    </Router>
+    <ChakraProvider theme={extendTheme(theme)}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<SelectSalon />} />
+          <Route
+            path="/walpi"
+            element={<Main salon={WALPI} setSalon={setSalon} />}
+          />
+          <Route
+            path="/ost"
+            element={<Main salon={OST} setSalon={setSalon} />}
+          />
+          <Route
+            path="/walpi/impressum"
+            element={<Impressum salon={WALPI} setSalon={setSalon} />}
+          />
+          <Route
+            path="/ost/impressum"
+            element={<Impressum salon={OST} setSalon={setSalon} />}
+          />
+        </Routes>
+      </Router>
+    </ChakraProvider>
   )
 }
 

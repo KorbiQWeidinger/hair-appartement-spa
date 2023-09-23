@@ -1,21 +1,15 @@
-import {
-  Box,
-  HStack,
-  Text,
-  Center,
-  Image,
-  useBreakpointValue,
-} from '@chakra-ui/react'
+import { Box, HStack, Text, Image, useBreakpointValue } from '@chakra-ui/react'
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import image from '../assets/images/Sunset.jpg'
-import dotted from '../assets/svg/Dotted_WalpiBGDark.svg'
+import image from '../../assets/images/Sunset.jpg'
+import dotted from '../../assets/svg/Dotted_WalpiBGDark.svg'
+import { OST } from '../../constants/SALONS'
 
 const MotionBox = motion(Box)
 const MotionImage = motion(Image)
 const MotionText = motion(Text)
 
-function AboutUsPage() {
+function AboutUs({ salon }: { salon: string }) {
   const controls = useAnimation()
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -24,7 +18,6 @@ function AboutUsPage() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log(entry.isIntersecting)
         setVisible(entry.isIntersecting)
       },
       {
@@ -33,12 +26,13 @@ function AboutUsPage() {
         threshold: 0.3,
       },
     )
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [visible])
@@ -58,7 +52,11 @@ function AboutUsPage() {
       wrap={isSmallScreen ? 'wrap' : 'nowrap'}
     >
       <Box width={'70%'}>
-        <Box width={isSmallScreen ? '28rem' : '36rem'} height={isSmallScreen ? '18rem' : '26rem'} position={'relative'}>
+        <Box
+          width={isSmallScreen ? '28rem' : '36rem'}
+          height={isSmallScreen ? '18rem' : '26rem'}
+          position={'relative'}
+        >
           {/* Box behind top-left corner */}
           <MotionBox
             position="absolute"
@@ -154,10 +152,21 @@ function AboutUsPage() {
           initial="hidden"
           animate={controls}
         >
-          Im Herzen unseres Zuhauses begrüßen Stefan & Nina Sie in einem
-          gemütlichen Zweiplatz-Salon. Bei uns stehen Sie und Ihre Familie im
-          Mittelpunkt. Kinder beleben unseren Alltag, und Hunde sind herzlich
-          willkommen.
+          {salon === OST ? (
+            <>
+              Direkt im pulsierenden Haidhausen laden Stefan & Nina Sie in ihren
+              charmanten Drei-Stuhl-Salon ein. Bei uns sind Sie und Ihre Lieben
+              immer im Fokus. Kinder bringen Schwung in unsere Atmosphäre, und
+              auch Hunde sind bei uns stets gern gesehene Gäste.
+            </>
+          ) : (
+            <>
+              Im Herzen unseres Zuhauses begrüßen Stefan & Nina Sie in einem
+              gemütlichen Zweiplatz-Salon. Bei uns stehen Sie und Ihre Familie
+              im Mittelpunkt. Kinder beleben unseren Alltag, und Hunde sind
+              herzlich willkommen.
+            </>
+          )}
         </MotionText>
         <MotionText
           variants={{
@@ -178,4 +187,4 @@ function AboutUsPage() {
   )
 }
 
-export default AboutUsPage
+export default AboutUs

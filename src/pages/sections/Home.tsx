@@ -1,23 +1,18 @@
-import {
-  Box,
-  HStack,
-  Text,
-  Image,
-  Center,
-  Button,
-  VStack,
-  Grid,
-} from '@chakra-ui/react'
+import { Box, Text, Image, Button, VStack, Grid } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import salon from '../../assets/images/SalonWalpi.jpeg'
+import salonWalpi from '../../assets/images/SalonWalpi.jpeg'
+import salonOst from '../../assets/images/SalonOst.jpeg'
+import { OST, bookingLink } from '../../constants/SALONS'
 
 const MotionBox = motion(Box)
 const MotionText = motion(Text)
 const MotionButton = motion(Button)
 
-function HomePage() {
+function Home({ salon }: { salon: string }) {
   return (
     <Grid
+      as="section"
+      id="home"
       templateColumns={['1fr', '1fr', '1fr', 'repeat(2, 1fr)']}
       alignItems={'center'}
       justifyContent={'center'}
@@ -35,7 +30,13 @@ function HomePage() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
           fontSize={['xl', '2xl', '3xl', '1.625rem', '2rem']}
-          color={['walpi.backgroundLight', 'walpi.backgroundLight', 'walpi.backgroundLight', 'black', 'black']}
+          color={[
+            'walpi.backgroundLight',
+            'walpi.backgroundLight',
+            'walpi.backgroundLight',
+            'black',
+            'black',
+          ]}
         >
           <MotionText fontFamily="Work Sans" fontWeight="bold">
             Der kleine aber feine
@@ -45,7 +46,7 @@ function HomePage() {
             </Text>
           </MotionText>
           <MotionText fontFamily="Work Sans" fontWeight="bold">
-            in Walpertskirchen.
+            in {salon === OST ? 'Haidhausen' : 'Walpertskirchen'}.
           </MotionText>
         </MotionBox>
 
@@ -60,7 +61,7 @@ function HomePage() {
           px={[7, 7, 7, 8, 10]}
           py={6}
           as="a"
-          href="https://buchung.treatwell.de/ort/424008/menue/"
+          href={bookingLink(salon)}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, rotateY: 180 }}
@@ -72,7 +73,7 @@ function HomePage() {
       </VStack>
       <Box position="relative" width="100%" height="100vh">
         <Image
-          src={salon}
+          src={salon === OST ? salonOst : salonWalpi}
           alt="Salon Image"
           objectFit="cover"
           height="100%"
@@ -87,11 +88,17 @@ function HomePage() {
           left={0}
           height="100%"
           width="100%"
-          bgColor={["rgba(0,0,0,0.5)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0)", "rgba(0,0,0,0)"]} // This darkens the image
+          bgColor={[
+            'rgba(0,0,0,0.5)',
+            'rgba(0,0,0,0.5)',
+            'rgba(0,0,0,0.5)',
+            'rgba(0,0,0,0)',
+            'rgba(0,0,0,0)',
+          ]} // This darkens the image
         />
       </Box>
     </Grid>
   )
 }
 
-export default HomePage
+export default Home
