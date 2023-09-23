@@ -13,11 +13,7 @@ const HairAppartement: React.FC<HairAppartementProps> = ({
   color,
 }) => {
   return (
-    <Text
-      fontSize={fontSize}
-      fontFamily={'admono'}
-      color={color}
-    >
+    <Text fontSize={fontSize} fontFamily={'admono'} color={color}>
       Hair
       <Text
         as="b"
@@ -28,7 +24,7 @@ const HairAppartement: React.FC<HairAppartementProps> = ({
       >
         Appartement
       </Text>
-      {two ? "2" : ""}
+      {two ? '2' : ''}
     </Text>
   )
 }

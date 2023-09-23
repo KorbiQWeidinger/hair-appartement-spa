@@ -1,11 +1,4 @@
-import {
-  Box,
-  Center,
-  Grid,
-  HStack,
-  Image,
-  useBreakpointValue,
-} from '@chakra-ui/react'
+import { Center, Grid, Image, useBreakpointValue } from '@chakra-ui/react'
 import Brand1 from '../assets/svg/Inerbra.svg'
 import Brand2 from '../assets/svg/Loreal.svg'
 import Brand3 from '../assets/svg/TheOrdinary.svg'
@@ -58,7 +51,7 @@ function Brands() {
     <Center ref={ref} bg="black" px={isSmallScreen ? 5 : 20} py={8}>
       <Grid
         height="100%"
-        width={"100%"}
+        width={'100%'}
         templateColumns={isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)'}
         gap={4}
       >

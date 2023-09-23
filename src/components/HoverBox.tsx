@@ -10,11 +10,18 @@ interface HoverBoxProps {
   href: string
   hoverText: string
   children?: ReactNode
-  rel?: string; 
-  target?: string;
+  rel?: string
+  target?: string
 }
 
-function HoverBox({ bg, href, hoverText, children, rel="noopener", target="_self" }: HoverBoxProps) {
+function HoverBox({
+  bg,
+  href,
+  hoverText,
+  children,
+  rel = 'noopener',
+  target = '_self',
+}: HoverBoxProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
