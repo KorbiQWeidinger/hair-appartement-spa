@@ -1,6 +1,7 @@
 import { Flex } from '@chakra-ui/react'
 import BoxImageAppear from '../components/BoxImageAppear'
 import SplashScreen from '../components/SplashScreen'
+import { OST, WALPI } from '../constants/SALONS'
 
 const SelectSalon = () => {
   function isSmallScreen() {
@@ -16,12 +17,14 @@ const SelectSalon = () => {
           reverse={true}
           delay={4}
           buttonText="Haidhausen"
+          salon={OST}
         />
         <BoxImageAppear
           imageUrl="/SalonWalpi.jpeg"
           reverse={false}
           delay={4}
           buttonText="Walpertskirchen"
+          salon={WALPI}
         />
       </Flex>
     </>

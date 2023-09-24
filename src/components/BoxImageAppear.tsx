@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { css } from '@emotion/react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const MotionBox = motion(Box)
 
@@ -11,6 +11,7 @@ interface BoxImageAppearProps {
   buttonText: string
   delay?: number
   reverse?: boolean
+  salon: string
 }
 
 const BoxImageAppear = ({
@@ -18,6 +19,7 @@ const BoxImageAppear = ({
   buttonText,
   delay = 0,
   reverse = false,
+  salon,
 }: BoxImageAppearProps) => {
   const [boxSize, setBoxSize] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -26,7 +28,7 @@ const BoxImageAppear = ({
   const [finalColWidth, setFinalColWidth] = useState(0)
   const [finalRowHeight, setFinalRowHeight] = useState(0)
   const [isAnimationComplete, setIsAnimationComplete] = useState(false)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (containerRef.current) {
@@ -106,8 +108,8 @@ const BoxImageAppear = ({
         }
       `}
       onClick={() => {
-        if(isAnimationComplete) {
-          navigate('/walpi');
+        if (isAnimationComplete) {
+          navigate(`/${salon}`)
         }
       }}
     >

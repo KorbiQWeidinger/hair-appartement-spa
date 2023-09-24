@@ -30,7 +30,7 @@ function App() {
 
   return (
     <ChakraProvider theme={extendTheme(theme)}>
-      <Router>
+      <Router basename="hair-appartement-spa">
         <Routes>
           <Route path="/" element={<SelectSalon />} />
           <Route
