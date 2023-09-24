@@ -17,7 +17,12 @@ function Footer({
           {showImpressumLink && (
             <>
               {' |'}
-              <Link href={`${salon}/impressum`} color="inherit" ml={1} mr={1}>
+              <Link
+                href={`/#/${salon}/impressum`}
+                color="inherit"
+                ml={1}
+                mr={1}
+              >
                 Impressum & Datenschutz
               </Link>
             </>

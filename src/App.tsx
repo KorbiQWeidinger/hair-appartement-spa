@@ -1,5 +1,5 @@
 import './assets/font/fonts.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 import Main from './pages/Main'
 import Impressum from './pages/Impressum'
 import SelectSalon from './pages/SelectSalon'
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <ChakraProvider theme={extendTheme(theme)}>
-      <Router basename="hair-appartement-spa">
+      <Router>
         <Routes>
           <Route path="/" element={<SelectSalon />} />
           <Route

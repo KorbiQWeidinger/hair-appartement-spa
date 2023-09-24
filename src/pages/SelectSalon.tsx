@@ -13,14 +13,12 @@ const SelectSalon = () => {
       <SplashScreen />
       <Flex bg={'black'} direction={isSmallScreen() ? 'column' : 'row'}>
         <BoxImageAppear
-          imageUrl="/SalonOst.jpeg"
           reverse={true}
           delay={4}
           buttonText="Haidhausen"
           salon={OST}
         />
         <BoxImageAppear
-          imageUrl="/SalonWalpi.jpeg"
           reverse={false}
           delay={4}
           buttonText="Walpertskirchen"

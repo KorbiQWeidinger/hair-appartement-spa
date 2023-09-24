@@ -8,6 +8,7 @@ import {
   Button,
   useBreakpointValue,
 } from '@chakra-ui/react'
+import { HashLink } from 'react-router-hash-link'
 import { motion } from 'framer-motion'
 import { OST, WALPI, bookingLink } from '../constants/SALONS'
 
@@ -62,7 +63,7 @@ const Header = ({ salon }: { salon: string }) => {
         >
           <Flex justifyContent="space-between" align="center" px={2} w="full">
             {/* First Element - Title */}
-            <Link href="#home" _hover={{ textDecoration: 'none' }}>
+            <HashLink to="#home">
               <Text fontSize="2rem" fontWeight="bold" fontFamily={'admono'}>
                 Hair
                 <Text as="b" fontSize="1.6rem" pr={2} align={'end'}>
@@ -70,17 +71,17 @@ const Header = ({ salon }: { salon: string }) => {
                 </Text>
                 {salon === OST ? '' : '2'}
               </Text>
-            </Link>
+            </HashLink>
 
             {/* Second Element - Navigation Links */}
             <HStack spacing={4}>
-              <Link href={`/${salon === WALPI ? OST : WALPI}`}>
+              <Link href={`/#/${salon === WALPI ? OST : WALPI}`}>
                 Salon Wechseln
               </Link>
-              <Link href="#prices">Preise</Link>
-              <Link href="#contact">Kontakt</Link>
-              <Link href={`${salon}/impressum`}>Impressum</Link>
-              <Link href={`${salon}/impressum`}>Datenschutz</Link>
+              <HashLink to="#prices">Preise</HashLink>
+              <HashLink to="#contact">Kontakt</HashLink>
+              <Link href={`/#/${salon}/impressum`}>Impressum</Link>
+              <Link href={`/#/${salon}/impressum`}>Datenschutz</Link>
             </HStack>
 
             {/* Third Element - Button */}

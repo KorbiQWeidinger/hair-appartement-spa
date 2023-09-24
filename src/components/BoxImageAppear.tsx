@@ -3,11 +3,13 @@ import { motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { useNavigate } from 'react-router-dom'
+import salonWalpi from '../assets/images/SalonWalpi.jpeg'
+import salonOst from '../assets/images/SalonOst.jpeg'
+import { WALPI } from '../constants/SALONS'
 
 const MotionBox = motion(Box)
 
 interface BoxImageAppearProps {
-  imageUrl: string
   buttonText: string
   delay?: number
   reverse?: boolean
@@ -15,7 +17,6 @@ interface BoxImageAppearProps {
 }
 
 const BoxImageAppear = ({
-  imageUrl,
   buttonText,
   delay = 0,
   reverse = false,
@@ -88,7 +89,7 @@ const BoxImageAppear = ({
     <MotionBox
       position="relative"
       ref={containerRef}
-      backgroundImage={`url(${imageUrl})`}
+      backgroundImage={salon === WALPI ? salonWalpi : salonOst}
       filter="grayscale(100%)"
       height={isSmallScreen() ? '50vh' : '100vh'}
       width={isSmallScreen() ? '100vw' : '50vw'}
