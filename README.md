@@ -15,6 +15,10 @@ npm run dev
 npm run deploy
 ```
 
+Known issue:
+After a successfull deploy the domain no longer points to `www.hairappartement.de`,
+this needs to be done manually atm
+
 ## Facing issues? Try updating node
 
 ```
