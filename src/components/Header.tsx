@@ -4,13 +4,13 @@ import {
   Text,
   Flex,
   HStack,
-  Link,
   Button,
   useBreakpointValue,
 } from '@chakra-ui/react'
 import { HashLink } from 'react-router-hash-link'
 import { motion } from 'framer-motion'
 import { OST, WALPI, bookingLink } from '../constants/SALONS'
+import { StyledLink } from './StyledLink'
 
 const MotionBox = motion(Box)
 
@@ -48,9 +48,9 @@ const Header = ({ salon }: { salon: string }) => {
           top="0"
           w="full"
           bg="walpi.primary.1000"
-          height="4rem"
+          height="5rem"
           style={{
-            top: isVisible ? '0' : '-4rem',
+            top: isVisible ? '0' : '-5rem',
           }}
           display={'flex'}
           justifyContent="center"
@@ -75,13 +75,15 @@ const Header = ({ salon }: { salon: string }) => {
 
             {/* Second Element - Navigation Links */}
             <HStack spacing={4}>
-              <Link href={`/#/${salon === WALPI ? OST : WALPI}`}>
+              <StyledLink href={`/#/${salon === WALPI ? OST : WALPI}`}>
                 Salon Wechseln
-              </Link>
+              </StyledLink>
               <HashLink to="#prices">Preise</HashLink>
               <HashLink to="#contact">Kontakt</HashLink>
-              <Link href={`/#/${salon}/impressum`}>Impressum</Link>
-              <Link href={`/#/${salon}/impressum`}>Datenschutz</Link>
+              <StyledLink href={`/#/${salon}/impressum`}>Impressum</StyledLink>
+              <StyledLink href={`/#/${salon}/impressum`}>
+                Datenschutz
+              </StyledLink>
             </HStack>
 
             {/* Third Element - Button */}

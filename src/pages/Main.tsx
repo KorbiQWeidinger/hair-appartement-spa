@@ -7,6 +7,8 @@ import Prices from './sections/Prices'
 import ContactPage from './sections/Contact'
 import Footer from '../components/Footer'
 import { useEffect } from 'react'
+import { HamburgerMenu } from '../components/HamburgerMenu'
+import { WALPI } from '../constants/SALONS'
 
 type ToastType = {
   title: string
@@ -38,25 +40,19 @@ const CustomToast = ({ title, content, onClose }: CustomToastProps) => {
   )
 }
 
-// Mock list of toasts
-const toasts: ToastType[] = [
+const toasts: (ToastType & { salon?: string })[] = [
   {
-    title: 'Bitte unterschreibt folgende Petition',
+    salon: WALPI,
+    title: '⚠️ Vorrübergehend Geschlossen ⚠️',
     content: (
       <p>
-        Bitte liest es euch durch und unterschtützt Betroffene:{' '}
-        <a
-          href="https://m.facebook.com/story.php?story_fbid=10161134532361458&id=702036457"
-          target="_blank"
-          rel="noreferrer"
-          style={{ textDecoration: 'underline' }}
-        >
-          Gerechte Regelung zur Corona-Soforthilfe für kleine Betriebe
-        </a>{' '}
+        Liebe Besucher, <br />
+        aufgrund eines <b>Wasserschadens</b> hat unser{' '}
+        <b>Salon in Walpertskirchen</b> vorrübergehend geschlossen. <br />
+        Besuchen sie uns gerne in Haidhausen!
       </p>
     ),
   },
-  // Add more toasts as needed
 ]
 
 const Main = ({
@@ -78,6 +74,10 @@ const Main = ({
     const timer = setTimeout(() => {
       // Display each toast from the list
       toasts.forEach((t) => {
+        if (t.salon !== salon) {
+          return
+        }
+
         toast({
           position: 'bottom-left',
           duration: null, // This will ensure the toast doesn't auto-dismiss
@@ -99,6 +99,7 @@ const Main = ({
   return (
     <>
       <Header salon={salon} />
+      <HamburgerMenu salon={salon} />
       <Box bg="walpi.backgroundLight">
         <Home salon={salon} />
         <Brands />

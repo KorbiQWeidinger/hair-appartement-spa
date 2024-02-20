@@ -6,9 +6,6 @@ Developed with React + TypeScript + Vite
 
 ```
 npm install
-```
-
-```
 npm run dev
 ```
 
@@ -17,3 +14,14 @@ npm run dev
 ```
 npm run deploy
 ```
+
+## Facing issues? Try updating node
+
+```
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+sudo n latest
+```
+
+Restart terminal!

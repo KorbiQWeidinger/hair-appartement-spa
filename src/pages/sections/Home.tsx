@@ -1,14 +1,26 @@
-import { Box, Text, Image, Button, VStack, Grid } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Image,
+  Button,
+  VStack,
+  Grid,
+  useBreakpoint,
+} from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import salonWalpi from '../../assets/images/SalonWalpi.jpeg'
 import salonOst from '../../assets/images/SalonOst.jpeg'
-import { OST, bookingLink } from '../../constants/SALONS'
+import { OST, WALPI, bookingLink } from '../../constants/SALONS'
+import { smallerEqual, Breakpoint } from '../../constants/BREAKPOINTS'
+import HairAppartement from '../../components/HairAppartement'
 
 const MotionBox = motion(Box)
 const MotionText = motion(Text)
 const MotionButton = motion(Button)
 
 function Home({ salon }: { salon: string }) {
+  const breakpoint = useBreakpoint()
+
   return (
     <Grid
       as="section"
@@ -38,6 +50,18 @@ function Home({ salon }: { salon: string }) {
             'black',
           ]}
         >
+          {smallerEqual('md', breakpoint as Breakpoint) ? (
+            <MotionText pb={10}>
+              <HairAppartement
+                fontSize={'2.5rem'}
+                fontWeight={'bold'}
+                color="walpi.primary.1000"
+                two={salon === WALPI}
+              />
+            </MotionText>
+          ) : (
+            <></>
+          )}
           <MotionText fontFamily="Work Sans" fontWeight="bold">
             Der kleine aber feine
             <Text as="span" color="walpi.primary.1000">

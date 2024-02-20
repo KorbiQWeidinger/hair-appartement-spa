@@ -1,91 +1,113 @@
-import { useState, useCallback } from 'react'
 import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   IconButton,
+  useDisclosure,
+  Box,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerBody,
+  VStack,
+  Flex,
+  useBreakpointValue,
+  Button,
 } from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
+import HairAppartement from './HairAppartement'
+import { OST, WALPI, bookingLink } from '../constants/SALONS'
+import { StyledLink } from './StyledLink'
 
-function HamburgerMenu() {
-  const [isHovered, setIsHovered] = useState(false)
+export const HamburgerMenu = ({ salon }: { salon: string }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const isSmallScreen = useBreakpointValue({ base: true, lg: false })
 
-  const handleMouseEnter = useCallback(() => {
-    setIsHovered(true)
-  }, [])
+  if (!isSmallScreen) {
+    return <></>
+  }
 
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false)
-  }, [])
+  const navigateTo = async (id: string) => {
+    onClose()
+    await new Promise((f) => setTimeout(f, 100))
+    const element = document.getElementById(id)
+    if (!element) {
+      return
+    }
+    element.scrollIntoView()
+  }
 
   return (
-    <Menu>
-      {({ isOpen }) => (
-        <>
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
+    <Flex position={'absolute'} justifyContent="flex-end" width={'100%'}>
+      <IconButton
+        position={'relative'}
+        aria-label="Open Menu"
+        bg={'walpi.primary.1000'}
+        icon={<HamburgerIcon color={'white'} boxSize={'22px'} />}
+        variant="solid"
+        borderRadius="full"
+        size="lg"
+        onClick={onOpen}
+        m={4}
+        zIndex={3}
+      />
+      <Drawer placement={'right'} onClose={onClose} isOpen={isOpen} size="full">
+        <DrawerOverlay />
+        <DrawerContent bg={'walpi.backgroundLight'}>
+          <Box p={3} bg={'walpi.primary.1000'}>
+            <HairAppartement
+              color="walpi.backgroundLight"
+              two={salon === WALPI}
+            />
+          </Box>
+          <IconButton
+            aria-label="Close Menu"
             icon={
-              <HamburgerIcon
-                boxSize="26px"
-                color={
-                  isHovered
-                    ? 'walpi.secondary'
-                    : isOpen
-                    ? 'walpi.secondary'
-                    : 'walpi.action'
-                }
-              />
+              <CloseIcon color={'walpi.backgroundLight'} boxSize={'22px'} />
             }
-            position={'fixed'}
-            variant="solid"
-            bg={'walpi.secondary'}
-            _active={{ bg: 'walpi.action' }}
-            borderRadius="full"
-            size="lg"
-            mt={6}
-            ml={6}
-            _hover={isOpen ? {} : { bg: 'walpi.action' }}
-            boxShadow={isOpen ? 'xl' : 'md'}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onClick={onClose}
+            m={4}
+            position="absolute"
+            top={0}
+            right={0}
+            bg={'none'}
           />
-          <MenuList bg={'walpi.secondary'} textColor={'walpi.action'}>
-            <MenuItem
-              bg={'walpi.secondary'}
-              _hover={{ bg: 'walpi.action', color: 'walpi.secondary' }}
-            >
-              Öffnungszeiten
-            </MenuItem>
-            <MenuItem
-              bg={'walpi.secondary'}
-              _hover={{ bg: 'walpi.action', color: 'walpi.secondary' }}
-            >
-              Preise
-            </MenuItem>
-            <MenuItem
-              bg={'walpi.secondary'}
-              _hover={{ bg: 'walpi.action', color: 'walpi.secondary' }}
-            >
-              Anfahrt
-            </MenuItem>
-            <MenuItem
-              bg={'walpi.secondary'}
-              _hover={{ bg: 'walpi.action', color: 'walpi.secondary' }}
-            >
-              Galerie
-            </MenuItem>
-            <MenuItem
-              bg={'walpi.secondary'}
-              _hover={{ bg: 'walpi.action', color: 'walpi.secondary' }}
-            >
-              Über Uns
-            </MenuItem>
-          </MenuList>
-        </>
-      )}
-    </Menu>
+          <DrawerBody
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            mb={20}
+          >
+            <VStack spacing={4}>
+              <StyledLink href={`/#/${salon === WALPI ? OST : WALPI}`}>
+                Salon Wechseln
+              </StyledLink>
+              <StyledLink onClick={() => navigateTo('prices')}>
+                Preise
+              </StyledLink>
+              <StyledLink onClick={() => navigateTo('contact')}>
+                Kontakt
+              </StyledLink>
+              <StyledLink href={`/#/${salon}/impressum`}>Impressum</StyledLink>
+              <StyledLink href={`/#/${salon}/impressum`}>
+                Datenschutz
+              </StyledLink>
+              <Button
+                color={'walpi.backgroundLight'}
+                fontWeight={'normal'}
+                bg={'walpi.primary.1000'}
+                borderRadius={100}
+                px={6}
+                mt={10}
+                as="a"
+                href={bookingLink(salon)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Jetzt Buchen
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Flex>
   )
 }
 

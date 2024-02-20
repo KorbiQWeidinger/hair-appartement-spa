@@ -1,19 +1,38 @@
-import { Box, HStack, Text, Image, useBreakpointValue } from '@chakra-ui/react'
+import {
+  Box,
+  HStack,
+  Text,
+  Image,
+  Center,
+  useBreakpoint,
+} from '@chakra-ui/react'
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import image from '../../assets/images/Sunset.jpg'
 import dotted from '../../assets/svg/Dotted_WalpiBGDark.svg'
 import { OST } from '../../constants/SALONS'
+import { smallerEqual } from '../../constants/BREAKPOINTS'
 
 const MotionBox = motion(Box)
 const MotionImage = motion(Image)
 const MotionText = motion(Text)
 
+const IMAGE_WIDTH_SIZES = {
+  base: 20,
+  sm: 26,
+  md: 36,
+  lg: 26,
+  xl: 36,
+  '2xl': 36,
+} as const
+
+export type Breakpoint = keyof typeof IMAGE_WIDTH_SIZES
+
 function AboutUs({ salon }: { salon: string }) {
   const controls = useAnimation()
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
-  const isSmallScreen = useBreakpointValue({ base: true, lg: false })
+  const breakpoint = useBreakpoint()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,77 +65,93 @@ function AboutUs({ salon }: { salon: string }) {
   return (
     <HStack
       ref={ref}
-      height={isSmallScreen ? '100vh' : '70vh'}
+      height={smallerEqual('lg', breakpoint as Breakpoint) ? '100%' : '70vh'}
       width={'100%'}
       px={'10%'}
-      wrap={isSmallScreen ? 'wrap' : 'nowrap'}
+      py={'10%'}
+      wrap={smallerEqual('lg', breakpoint as Breakpoint) ? 'wrap' : 'nowrap'}
     >
-      <Box width={'70%'}>
-        <Box
-          width={isSmallScreen ? '28rem' : '36rem'}
-          height={isSmallScreen ? '18rem' : '26rem'}
-          position={'relative'}
-        >
-          {/* Box behind top-left corner */}
-          <MotionBox
-            position="absolute"
-            width={isSmallScreen ? '5rem' : '10rem'}
-            height={isSmallScreen ? '5rem' : '10rem'}
-            bg="walpi.primary.1000"
-            zIndex="1"
-            shadow="lg"
-            borderRadius="2xl"
-            initial="hidden"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { delay: 0.5 } },
-            }}
-            animate={controls}
-          />
+      <Center
+        width={'100%'}
+        paddingBottom={smallerEqual('lg', breakpoint as Breakpoint) ? '10%' : 0}
+      >
+        {smallerEqual('base', breakpoint as Breakpoint) ? (
+          ''
+        ) : (
+          <Box
+            width={`${IMAGE_WIDTH_SIZES[breakpoint as Breakpoint]}rem`}
+            height={`${
+              (IMAGE_WIDTH_SIZES[breakpoint as Breakpoint] * 2) / 3
+            }rem`}
+            position={'relative'}
+          >
+            {/* Box behind top-left corner */}
+            <MotionBox
+              position="absolute"
+              width={'10rem'}
+              height={'10rem'}
+              bg="walpi.primary.1000"
+              zIndex="1"
+              shadow="lg"
+              borderRadius="2xl"
+              initial="hidden"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { delay: 0.5 } },
+              }}
+              animate={controls}
+            />
+            {/* Main Image */}
+            <MotionImage
+              src={image}
+              width={`${IMAGE_WIDTH_SIZES[breakpoint as Breakpoint] - 4}rem`}
+              height={`${
+                (IMAGE_WIDTH_SIZES[breakpoint as Breakpoint] * 2) / 3 - 4
+              }rem`}
+              objectFit="cover"
+              borderRadius="2xl"
+              shadow="lg"
+              zIndex="2"
+              position="absolute"
+              top="8"
+              left="8"
+              initial="hidden"
+              variants={{
+                hidden: { opacity: 0, rotateY: 180 },
+                visible: {
+                  opacity: 1,
+                  rotateY: 360,
+                  transition: { delay: 0.7, duration: 1 },
+                },
+              }}
+              animate={controls}
+            />
 
-          {/* Main Image */}
-          <MotionImage
-            src={image}
-            width={isSmallScreen ? '26rem' : '32rem'}
-            height={isSmallScreen ? '16rem' : '22rem'}
-            objectFit="cover"
-            borderRadius="2xl"
-            shadow="lg"
-            zIndex="2"
-            position="absolute"
-            top="8"
-            left="8"
-            initial="hidden"
-            variants={{
-              hidden: { opacity: 0, rotateY: 180 },
-              visible: {
-                opacity: 1,
-                rotateY: 360,
-                transition: { delay: 0.7, duration: 1 },
-              },
-            }}
-            animate={controls}
-          />
-
-          {/* SVG behind bottom-right corner */}
-          <MotionImage
-            src={dotted}
-            position="absolute"
-            bottom="0"
-            right="0"
-            width="8rem"
-            height="8rem"
-            zIndex="1"
-            initial="hidden"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { delay: 1.8 } },
-            }}
-            animate={controls}
-          />
-        </Box>
-      </Box>
-      <Box textAlign="left" fontFamily="Outfit" width={'80%'} pl={10}>
+            {/* SVG behind bottom-right corner */}
+            <MotionImage
+              src={dotted}
+              position="absolute"
+              bottom="0"
+              right="0"
+              width="8rem"
+              height="8rem"
+              zIndex="1"
+              initial="hidden"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { delay: 1.8 } },
+              }}
+              animate={controls}
+            />
+          </Box>
+        )}
+      </Center>
+      <Box
+        textAlign="left"
+        fontFamily="Outfit"
+        width={smallerEqual('lg', breakpoint as Breakpoint) ? '100%' : '80%'}
+        pl={smallerEqual('lg', breakpoint as Breakpoint) ? 0 : 10}
+      >
         <MotionText
           fontSize="4xl"
           fontWeight="bold"
@@ -126,7 +161,7 @@ function AboutUs({ salon }: { salon: string }) {
             visible: {
               x: 0,
               opacity: 1,
-              transition: { delay: 2, duration: 0.6 },
+              transition: { delay: 0.7, duration: 0.6 },
             },
           }}
           initial="hidden"
@@ -146,7 +181,7 @@ function AboutUs({ salon }: { salon: string }) {
             visible: {
               x: 0,
               opacity: 1,
-              transition: { delay: 2.8, duration: 0.6 },
+              transition: { delay: 1.3, duration: 0.6 },
             },
           }}
           initial="hidden"
@@ -174,7 +209,7 @@ function AboutUs({ salon }: { salon: string }) {
             visible: {
               x: 0,
               opacity: 1,
-              transition: { delay: 3.7, duration: 0.6 },
+              transition: { delay: 1.8, duration: 0.6 },
             },
           }}
           initial="hidden"
@@ -183,6 +218,33 @@ function AboutUs({ salon }: { salon: string }) {
           Freuen Sie sich auf einen Besuch bei den Duschls!
         </MotionText>
       </Box>
+      {!smallerEqual('base', breakpoint as Breakpoint) ? (
+        ''
+      ) : (
+        <Box py={'2rem'}>
+          <MotionImage
+            src={image}
+            width={`${IMAGE_WIDTH_SIZES[breakpoint as Breakpoint]}rem`}
+            height={`${
+              (IMAGE_WIDTH_SIZES[breakpoint as Breakpoint] * 2) / 3
+            }rem`}
+            objectFit="cover"
+            borderRadius="2xl"
+            shadow="lg"
+            zIndex="2"
+            initial="hidden"
+            variants={{
+              hidden: { opacity: 0, rotateY: 180 },
+              visible: {
+                opacity: 1,
+                rotateY: 360,
+                transition: { delay: 2, duration: 1 },
+              },
+            }}
+            animate={controls}
+          />
+        </Box>
+      )}
     </HStack>
   )
 }
