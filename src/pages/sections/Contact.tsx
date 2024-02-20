@@ -59,7 +59,7 @@ function Contact({ salon }: { salon: string }) {
       as="section"
       id="contact"
       pt={'4rem'}
-      pb={'10rem'}
+      pb={isSmallScreen ? '2rem' : '10rem'}
       fontFamily="Work Sans"
       width={'100%'}
     >

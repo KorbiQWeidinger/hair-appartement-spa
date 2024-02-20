@@ -35,17 +35,14 @@ const BoxImageAppear = ({
     if (containerRef.current) {
       const width = containerRef.current.clientWidth
       const height = containerRef.current.clientHeight
-      const rows = Math.ceil(height / boxSize)
-      const cols = Math.ceil(width / boxSize)
+      const rows = Math.floor(height / boxSize)
+      const cols = Math.floor(width / boxSize)
       const finalColWidth = width - (cols - 1) * boxSize
       const finalRowHeight = height - (rows - 1) * boxSize
 
       if (window.innerWidth <= 768) {
         setBoxSize(25)
       }
-
-      console.log('width', finalColWidth)
-      console.log('height', finalRowHeight)
 
       setRows(rows)
       setCols(cols)
@@ -97,7 +94,7 @@ const BoxImageAppear = ({
       initial={{ filter: 'grayscale(100%)' }}
       animate={{
         filter: 'grayscale(0%)',
-        transition: { delay: delay + 2, duration: 3.5 },
+        transition: { delay: delay + 2, duration: isSmallScreen() ? 0 : 2 },
       }}
       onAnimationComplete={() => setIsAnimationComplete(true)}
       _hover={isAnimationComplete ? { cursor: 'pointer', bg: 'black' } : {}}
@@ -157,7 +154,7 @@ const BoxImageAppear = ({
           zIndex={10}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           {buttonText}
         </MotionBox>
