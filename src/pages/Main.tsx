@@ -94,7 +94,7 @@ const Main = ({
 
     // Cleanup timer when component unmounts or dependencies change
     return () => clearTimeout(timer)
-  }, [toast])
+  }, [toast, salon])
 
   return (
     <>
