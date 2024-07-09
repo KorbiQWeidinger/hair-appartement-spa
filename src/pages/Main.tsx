@@ -8,12 +8,7 @@ import ContactPage from './sections/Contact'
 import Footer from '../components/Footer'
 import { useEffect } from 'react'
 import { HamburgerMenu } from '../components/HamburgerMenu'
-import { WALPI } from '../constants/SALONS'
-
-type ToastType = {
-  title: string
-  content: JSX.Element
-}
+import { TOASTS } from '../constants/TOASTS'
 
 interface CustomToastProps {
   title: string
@@ -40,21 +35,6 @@ const CustomToast = ({ title, content, onClose }: CustomToastProps) => {
   )
 }
 
-const toasts: (ToastType & { salon?: string })[] = [
-  {
-    salon: WALPI,
-    title: '⚠️ Vorrübergehend Geschlossen ⚠️',
-    content: (
-      <p>
-        Liebe Besucher, <br />
-        aufgrund eines <b>Wasserschadens</b> hat unser{' '}
-        <b>Salon in Walpertskirchen</b> vorrübergehend geschlossen. <br />
-        Besuchen sie uns gerne in Haidhausen!
-      </p>
-    ),
-  },
-]
-
 const Main = ({
   salon,
   setSalon,
@@ -73,7 +53,7 @@ const Main = ({
     const delay = 3000 // Wait for 5 seconds (5000 milliseconds)
     const timer = setTimeout(() => {
       // Display each toast from the list
-      toasts.forEach((t) => {
+      TOASTS.forEach((t) => {
         if (t.salon !== salon) {
           return
         }

@@ -76,7 +76,10 @@ export const HamburgerMenu = ({ salon }: { salon: string }) => {
             mb={20}
           >
             <VStack spacing={4}>
-              <StyledLink href={`/#/${salon === WALPI ? OST : WALPI}`}>
+              <StyledLink
+                href={`/#/${salon === WALPI ? OST : WALPI}`}
+                onClick={onClose}
+              >
                 Salon Wechseln
               </StyledLink>
               <StyledLink onClick={() => navigateTo('prices')}>
