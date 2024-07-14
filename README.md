@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-## Deploy the project to gh pages
+## Deploy the project to gh pages manually
 
 ```
 npm run deploy
